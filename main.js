@@ -37,7 +37,9 @@ $('.posts').on('click', '.remove', function () {
             break;
         }
     $(this).parent().remove(); // remove from the page
+    //renderPosts();
 });
+
 
 $('.add-post').on('click', function () {
     var input = $('#post-name').val();
@@ -62,10 +64,14 @@ $('.posts').on('click', '.remove', function () {
     // $('p[data-id='+ getId+']').remove(); // remove from the page
 
     var getId = $(this).parent().data().id;
-    for (var i in posts)
-        if (posts[i].id == getId)
+    for (var i in posts) {
+        // console.log("i'm in " + posts[i].id);
+        if (posts[i].id == getId) {
             posts.splice(i, 1); // remove from the array
-
+            break;
+        }
+    }
+    // console.log("i'm out ")
     $(this).parent().remove(); // remove from the page
     // renderPosts();
     console.log("after remove: ");
