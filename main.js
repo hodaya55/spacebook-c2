@@ -1,28 +1,45 @@
 var SpacebookApp = function () {
+
+  //This will be our 'key' for our local storage object so we can uniquely identify our app.
+  var STORAGE_ID = 'spacebook';
+
   // dummy data
   var posts = [
-    {
-      text: "Hello world 1", comments: [
-        { text: "Man, this is a comment 1!" },
-        { text: "Man, this is a comment 2!" },
-        { text: "Man, this is a comment 3!" }
-      ]
-    },
-    {
-      text: "Hello world 2", comments: [
-        { text: "Man, this is a comment 1!" },
-        { text: "Man, this is a comment 2!" },
-        { text: "Man, this is a comment 3!" }
-      ]
-    },
-    {
-      text: "Hello world 3", comments: [
-        { text: "Man, this is a comment 1!" },
-        { text: "Man, this is a comment 2!" },
-        { text: "Man, this is a comment 3!" }
-      ]
-    }
+    // {
+    //   text: "Hello world 1", comments: [
+    //     { text: "Man, this is a comment 1!" },
+    //     { text: "Man, this is a comment 2!" },
+    //     { text: "Man, this is a comment 3!" }
+    //   ]
+    // },
+    // {
+    //   text: "Hello world 2", comments: [
+    //     { text: "Man, this is a comment 1!" },
+    //     { text: "Man, this is a comment 2!" },
+    //     { text: "Man, this is a comment 3!" }
+    //   ]
+    // },
+    // {
+    //   text: "Hello world 3", comments: [
+    //     { text: "Man, this is a comment 1!" },
+    //     { text: "Man, this is a comment 2!" },
+    //     { text: "Man, this is a comment 3!" }
+    //   ]
+    // }
   ];
+
+  // This will stringify and save our entire posts array.
+  var saveToLocalStorage = function () {
+    localStorage.setItem(STORAGE_ID, JSON.stringify(posts));
+  }
+
+  // This will get our posts out of local storage and convert them back to JS objects
+  // or, if none exists, it will simply return an empty array.
+  var getFromLocalStorage = function () {
+    return JSON.parse(localStorage.getItem(STORAGE_ID) || '[]');
+  }
+
+
 
   // render posts to page
   // this function empties the posts div, 
@@ -34,6 +51,10 @@ var SpacebookApp = function () {
 
     $posts.empty();
 
+    // get
+   posts= getFromLocalStorage();
+    // JSON.parse(localStorage.getItem('postsArray'));
+
     for (var i = 0; i < posts.length; i += 1) {
       var post = posts[i];
       var commentsContainer = '<div class="comments-container">' + '<ul class=comments-list></ul>' +
@@ -44,11 +65,16 @@ var SpacebookApp = function () {
         '<a href="#" class="show-comments">Toggle Comments </a> ' +
         post.text + '<button class="btn btn-danger btn-sm remove">Remove Post</button> ' + commentsContainer + '</li>');
     }
-  }
+  };
 
   var _renderComments = function () {
     //empty all the comments - from all posts!!!
     $('.comments-list').empty();
+
+    // get
+    posts= getFromLocalStorage();
+    // JSON.parse(localStorage.getItem('postsArray'));
+
 
     for (var i = 0; i < posts.length; i += 1) {
       // the current post in the iteration
@@ -73,15 +99,29 @@ var SpacebookApp = function () {
     };
   };
 
+
+
+
   // build a single post object and push it to array
   var createPost = function (text) {
     posts.push({ text: text, comments: [] });
+
+    // store
+    // localStorage.setItem('postsArray', JSON.stringify({ posts }));
+    saveToLocalStorage();
+
     _renderPosts();
     _renderComments();
   };
 
   var removePost = function ($clickedPost, index) {
+    // get
+    posts=getFromLocalStorage();
+
     posts.splice(index, 1);
+    // store
+    saveToLocalStorage();
+
     $clickedPost.remove();
   };
 
@@ -90,13 +130,19 @@ var SpacebookApp = function () {
 
     // pushing the comment into the correct posts array
     posts[postIndex].comments.push(comment);
+       // store
+       saveToLocalStorage();
     //render comments
     _renderComments();
   };
 
   var removeComment = function ($clickedComment, commentIndex, postIndex) {
+    // get
+    posts= getFromLocalStorage();
     // remove the comment from the comments array on the correct post object
     posts[postIndex].comments.splice(commentIndex, 1);
+    // store
+    saveToLocalStorage();
     // removing the comment from the page
     $clickedComment.remove();
   };
