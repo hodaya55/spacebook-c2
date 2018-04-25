@@ -53,7 +53,7 @@ var SpacebookApp = function () {
 
     // get
    posts= getFromLocalStorage();
-    // JSON.parse(localStorage.getItem('postsArray'));
+  
 
     for (var i = 0; i < posts.length; i += 1) {
       var post = posts[i];
@@ -73,9 +73,7 @@ var SpacebookApp = function () {
 
     // get
     posts= getFromLocalStorage();
-    // JSON.parse(localStorage.getItem('postsArray'));
-
-
+ 
     for (var i = 0; i < posts.length; i += 1) {
       // the current post in the iteration
       var post = posts[i];
@@ -107,7 +105,6 @@ var SpacebookApp = function () {
     posts.push({ text: text, comments: [] });
 
     // store
-    // localStorage.setItem('postsArray', JSON.stringify({ posts }));
     saveToLocalStorage();
 
     _renderPosts();
