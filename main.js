@@ -1,10 +1,15 @@
+ 
+
+
 var SpacebookApp = function () {
 
   //This will be our 'key' for our local storage object so we can uniquely identify our app.
   var STORAGE_ID = 'spacebook';
 
+
+ 
   // dummy data
-  var posts = [
+  // var posts = [
     // {
     //   text: "Hello world 1", comments: [
     //     { text: "Man, this is a comment 1!" },
@@ -26,7 +31,7 @@ var SpacebookApp = function () {
     //     { text: "Man, this is a comment 3!" }
     //   ]
     // }
-  ];
+  // ];
 
   // This will stringify and save our entire posts array.
   var saveToLocalStorage = function () {
@@ -51,9 +56,6 @@ var SpacebookApp = function () {
 
     $posts.empty();
 
-    // get
-   posts= getFromLocalStorage();
-  
 
     for (var i = 0; i < posts.length; i += 1) {
       var post = posts[i];
@@ -71,9 +73,7 @@ var SpacebookApp = function () {
     //empty all the comments - from all posts!!!
     $('.comments-list').empty();
 
-    // get
-    posts= getFromLocalStorage();
- 
+  
     for (var i = 0; i < posts.length; i += 1) {
       // the current post in the iteration
       var post = posts[i];
@@ -112,9 +112,7 @@ var SpacebookApp = function () {
   };
 
   var removePost = function ($clickedPost, index) {
-    // get
-    posts=getFromLocalStorage();
-
+  
     posts.splice(index, 1);
     // store
     saveToLocalStorage();
@@ -134,8 +132,7 @@ var SpacebookApp = function () {
   };
 
   var removeComment = function ($clickedComment, commentIndex, postIndex) {
-    // get
-    posts= getFromLocalStorage();
+ 
     // remove the comment from the comments array on the correct post object
     posts[postIndex].comments.splice(commentIndex, 1);
     // store
@@ -144,6 +141,9 @@ var SpacebookApp = function () {
     $clickedComment.remove();
   };
 
+   // get
+var posts= getFromLocalStorage();
+ 
   //  invoke the render method on app load
   _renderPosts();
   _renderComments();
@@ -156,7 +156,11 @@ var SpacebookApp = function () {
   };
 };
 
+ 
 var app = SpacebookApp();
+
+
+
 
 // Event Handlers below
 
